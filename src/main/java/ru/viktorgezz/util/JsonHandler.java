@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JsonHandler {
     private final ObjectMapper objectMapper = new ObjectMapper()
@@ -25,6 +27,14 @@ public class JsonHandler {
 
     public void send(Object object, HttpServletResponse resp, int status) throws IOException {
         String json = objectMapper.writeValueAsString(object);
+        resp.setStatus(status);
+        resp.getWriter().write(json);
+    }
+
+    public void send(String message, HttpServletResponse resp, int status) throws IOException {
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("message", message);
+        String json = objectMapper.writeValueAsString(responseBody);
         resp.setStatus(status);
         resp.getWriter().write(json);
     }

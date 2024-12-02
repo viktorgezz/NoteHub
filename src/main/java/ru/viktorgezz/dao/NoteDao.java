@@ -15,7 +15,7 @@ public class NoteDao {
     public void save(NoteDto noteDto) throws SQLException {
         String sql = "INSERT INTO Notes(title, txt, created_at) VALUES (?, ?, ?)";
 
-        try (Connection connection = DbConnectionPool.getConnection()){
+        try (Connection connection = DbConnectionPool.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, noteDto.getTitle());
             stmt.setString(2, noteDto.getTxt());
@@ -28,7 +28,7 @@ public class NoteDao {
     public Optional<Note> findById(long id) throws SQLException {
         String sql = "SELECT * FROM Notes WHERE id = ?";
 
-        try (Connection connection = DbConnectionPool.getConnection()){
+        try (Connection connection = DbConnectionPool.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -38,6 +38,28 @@ public class NoteDao {
             }
 
             return Optional.of(noteMapper.mapRowInNote(rs));
+        }
+    }
+
+    public void deleteById(long id) throws SQLException {
+        String sql = "DELETE FROM Notes WHERE id = ?";
+
+        try (Connection connection = DbConnectionPool.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+        }
+    }
+
+    public void update(NoteDto noteDto, long id) throws SQLException {
+        String sql = "UPDATE Notes SET title = ?, txt = ? WHERE id = ?";
+
+        try (Connection connection = DbConnectionPool.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, noteDto.getTitle());
+            stmt.setString(2, noteDto.getTxt());
+            stmt.setLong(3, id);
+            stmt.executeUpdate();
         }
     }
 }

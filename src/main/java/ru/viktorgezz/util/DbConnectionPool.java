@@ -2,8 +2,6 @@ package ru.viktorgezz.util;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import ru.viktorgezz.dao.NoteDao;
-import ru.viktorgezz.dto.NoteDto;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,10 +12,10 @@ public class DbConnectionPool {
 
     static {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:postgresql://localhost:5432/note_db"); // change
-        config.setUsername("postgres"); // change
-        config.setPassword("v+L*=74"); // change
-        config.setDriverClassName("org.postgresql.Driver");
+        config.setJdbcUrl(PropertiesUtil.getJdbcUrl());
+        config.setUsername(PropertiesUtil.getUsername());
+        config.setPassword(PropertiesUtil.getPassword());
+        config.setDriverClassName(PropertiesUtil.getDriverClassName());
         dataSource = new HikariDataSource(config);
     }
 
