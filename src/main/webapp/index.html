@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaEE Authentication</title>
+</head>
+<body>
+<h1>JavaEE Auth Frontend</h1>
+
+<!-- Login Form -->
+<div id="login-form">
+    <h2>Login</h2>
+    <form id="form-login">
+        <label for="login">Login:</label>
+        <input type="text" id="login" name="login" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Login</button>
+    </form>
+    <div id="login-error" style="color: red;"></div>
+</div>
+
+<!-- Protected Content -->
+<div id="protected-content" style="display: none;">
+    <h2>Welcome, User!</h2>
+    <button id="logout-button">Logout</button>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
