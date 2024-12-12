@@ -9,6 +9,10 @@ public class NoteDto {
 
     private Timestamp createdAt;
 
+    private Timestamp updatedAt;
+
+    private Long idAccount;
+
     public NoteDto() {
     }
 
@@ -23,6 +27,8 @@ public class NoteDto {
                 "title='" + title + '\'' +
                 ", txt='" + txt + '\'' +
                 ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", idAccount=" + idAccount +
                 '}';
     }
 
@@ -48,5 +54,21 @@ public class NoteDto {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Long getIdAccount() {
+        return idAccount;
+    }
+
+    public void setIdAccount(Long idAccount) {
+        this.idAccount = idAccount;
     }
 }

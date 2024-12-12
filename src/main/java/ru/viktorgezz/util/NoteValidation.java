@@ -1,13 +1,14 @@
 package ru.viktorgezz.util;
 
 import ru.viktorgezz.dao.NoteDao;
+import ru.viktorgezz.dao.interfaces.NoteService;
 import ru.viktorgezz.dto.NoteDto;
 
 import java.sql.SQLException;
 
 public class NoteValidation {
 
-    private final NoteDao noteDao = new NoteDao();
+    private final NoteService noteService = NoteDao.getInstance();
 
 
     public void validate(long id, NoteDto noteDto) throws SQLException, CustomException {
@@ -31,7 +32,7 @@ public class NoteValidation {
     }
     
     public void isExistsEntity(long id) throws SQLException, CustomException {
-        if (noteDao.findById(id).isEmpty()) {
+        if (noteService.findById(id).isEmpty()) {
             throw new CustomException("Запись не найдена");
         }
     }

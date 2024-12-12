@@ -10,13 +10,20 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JsonHandler {
-    private final ObjectMapper objectMapper = new ObjectMapper()
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+public class JsonMapperImp implements JsonMapper {
 
-    public JsonHandler() {
+    private static final JsonMapperImp instance = new JsonMapperImp();
+
+    private JsonMapperImp() {
         objectMapper.registerModule(new JavaTimeModule());
     }
+
+    public static JsonMapperImp getInstance() {
+        return instance;
+    }
+
+    private final ObjectMapper objectMapper = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     public <T> T get(BufferedReader reader, Class<T> clazz) throws IOException {
         if (reader == null || !reader.ready()) {

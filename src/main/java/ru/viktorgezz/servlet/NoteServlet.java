@@ -6,10 +6,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.core.MediaType;
+import ru.viktorgezz.dao.AccountDao;
 import ru.viktorgezz.dao.NoteDao;
+import ru.viktorgezz.dao.interfaces.NoteService;
 import ru.viktorgezz.dto.NoteDto;
 import ru.viktorgezz.util.CustomException;
-import ru.viktorgezz.util.JsonHandler;
+import ru.viktorgezz.util.JsonMapper;
+import ru.viktorgezz.util.JsonMapperImp;
 import ru.viktorgezz.util.NoteValidation;
 
 import java.io.IOException;
@@ -18,36 +21,39 @@ import java.sql.SQLException;
 @WebServlet(urlPatterns = "/note")
 public class NoteServlet extends HttpServlet {
 
-    private final JsonHandler jsonHandler = new JsonHandler();
-    private final NoteDao noteDao = new NoteDao();
+    private final JsonMapper jsonMapper = JsonMapperImp.getInstance();
+    private final NoteService noteService = NoteDao.getInstance();
     private final NoteValidation noteValidation= new NoteValidation();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(MediaType.APPLICATION_JSON);
         try {
-            long id = Long.parseLong(req.getParameter("id"));
-            jsonHandler.send(noteDao.findById(id).orElseThrow(() -> new CustomException("Заметка не найдена")), resp, 200);
+            jsonMapper.send(
+                    noteService.findById(
+                            Long.parseLong(req.getParameter("id")))
+                            .orElseThrow(() -> new CustomException("Заметка не найдена")), resp, 200);
         } catch (SQLException e) {
-            jsonHandler.send(e.getMessage(), resp, 500);
+            jsonMapper.send(e.getMessage(), resp, 500);
         } catch (CustomException e) {
-            jsonHandler.send(e.getMessage(), resp, 400);
+            jsonMapper.send(e.getMessage(), resp, 400);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
+        NoteDto noteDto = jsonMapper.get(req.getReader(), NoteDto.class);
+        noteDto.setIdAccount(Long.parseLong(req.getSession().getAttribute("userId").toString()));
 
-        NoteDto noteDto = jsonHandler.get(req.getReader(), NoteDto.class);
         try {
             noteValidation.validate(noteDto);
-            noteDao.save(noteDto);
-            jsonHandler.send("Заметка сохранена", resp, 200);
+            noteService.save(noteDto);
+            jsonMapper.send("Заметка сохранена", resp, 200);
         } catch (SQLException e) {
-            jsonHandler.send(e.getMessage(), resp, 500);
+            jsonMapper.send(e.getMessage(), resp, 500);
         } catch (CustomException e) {
-            jsonHandler.send(e.getMessage(), resp, 400);
+            jsonMapper.send(e.getMessage(), resp, 400);
         }
 
     }
@@ -55,29 +61,31 @@ public class NoteServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(MediaType.APPLICATION_JSON);
-        long id = Long.parseLong(req.getParameter("id"));
         try {
+            long id = Long.parseLong(req.getParameter("id"));
             noteValidation.isExistsEntity(id);
-            noteDao.deleteById(id);
-            jsonHandler.send("Заметка удалена", resp, 200);
+            noteService.deleteById(id);
+            jsonMapper.send("Заметка удалена", resp, 200);
         } catch (SQLException e) {
-            jsonHandler.send(e.getMessage(), resp, 500);
+            jsonMapper.send(e.getMessage(), resp, 500);
         } catch (CustomException e) {
-            jsonHandler.send(e.getMessage(), resp, 400);
+            jsonMapper.send(e.getMessage(), resp, 400);
         }
     }
 
     protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(MediaType.APPLICATION_JSON);
         long id = Long.parseLong(req.getParameter("id"));
-        NoteDto noteDto = jsonHandler.get(req.getReader(), NoteDto.class);
+        NoteDto noteDto = jsonMapper.get(req.getReader(), NoteDto.class);
+
         try {
             noteValidation.validate(id, noteDto);
-            noteDao.update(noteDto, id);
-        } catch (SQLException e) {
-            jsonHandler.send(e.getMessage(), resp, 500);
+            noteService.update(noteDto, id);
+            jsonMapper.send("Заметка обновлена", resp, 200);
         } catch (CustomException e) {
-            jsonHandler.send(e.getMessage(), resp, 400);
+            jsonMapper.send(e.getMessage(), resp, 400);
+        } catch (SQLException e) {
+            jsonMapper.send(e.getMessage(), resp, 500);
         }
     }
 
