@@ -13,7 +13,7 @@ import ru.viktorgezz.dao.AccountDao;
 import ru.viktorgezz.model.Account;
 import ru.viktorgezz.dao.interfaces.AccountService;
 import ru.viktorgezz.servlet.RegisterServlet;
-import ru.viktorgezz.util.JsonMapperImp;
+import ru.viktorgezz.util.mapper.JsonMapperImp;
 
 import java.io.*;
 import java.sql.SQLException;

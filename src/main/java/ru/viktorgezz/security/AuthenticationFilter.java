@@ -15,19 +15,19 @@ public class AuthenticationFilter implements Filter {
 
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:8081");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-        response.setHeader("Access-Control-Allow-Methods", "*");
+        response.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET, POST, DELETE, PATCH");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Content-Type", "application/json");
+        response.setHeader("Access-Control-Max-Age", "250000");
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(200);
             filterChain.doFilter(request, response);
             return;
         }
 
-
         String path = request.getRequestURI();
 
-        if (path.equals("/register") || path.equals("/login")) {
+        if (path.contains("/register") || path.contains("/login")) {
             filterChain.doFilter(request, response);
             return;
         }

@@ -6,24 +6,23 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.core.MediaType;
-import ru.viktorgezz.dao.AccountDao;
 import ru.viktorgezz.dao.NoteDao;
 import ru.viktorgezz.dao.interfaces.NoteService;
 import ru.viktorgezz.dto.NoteDto;
 import ru.viktorgezz.util.CustomException;
-import ru.viktorgezz.util.JsonMapper;
-import ru.viktorgezz.util.JsonMapperImp;
+import ru.viktorgezz.util.mapper.JsonMapper;
+import ru.viktorgezz.util.mapper.JsonMapperImp;
 import ru.viktorgezz.util.NoteValidation;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(urlPatterns = "/note")
+@WebServlet(urlPatterns = "/api/note")
 public class NoteServlet extends HttpServlet {
 
     private final JsonMapper jsonMapper = JsonMapperImp.getInstance();
     private final NoteService noteService = NoteDao.getInstance();
-    private final NoteValidation noteValidation= new NoteValidation();
+    private final NoteValidation noteValidation = new NoteValidation();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,7 +30,7 @@ public class NoteServlet extends HttpServlet {
         try {
             jsonMapper.send(
                     noteService.findById(
-                            Long.parseLong(req.getParameter("id")))
+                                    Long.parseLong(req.getParameter("id")))
                             .orElseThrow(() -> new CustomException("Заметка не найдена")), resp, 200);
         } catch (SQLException e) {
             jsonMapper.send(e.getMessage(), resp, 500);
@@ -75,12 +74,11 @@ public class NoteServlet extends HttpServlet {
 
     protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(MediaType.APPLICATION_JSON);
-        long id = Long.parseLong(req.getParameter("id"));
         NoteDto noteDto = jsonMapper.get(req.getReader(), NoteDto.class);
 
         try {
-            noteValidation.validate(id, noteDto);
-            noteService.update(noteDto, id);
+            noteValidation.validateUpdate(noteDto);
+            noteService.update(noteDto);
             jsonMapper.send("Заметка обновлена", resp, 200);
         } catch (CustomException e) {
             jsonMapper.send(e.getMessage(), resp, 400);
@@ -104,6 +102,9 @@ public class NoteServlet extends HttpServlet {
                 break;
             case "PATCH":
                 doPatch(req, resp);
+                break;
+            case "OPTIONS":
+                doOptions(req, resp);
                 break;
             default:
                 resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Метод " + method + " не поддерживается");

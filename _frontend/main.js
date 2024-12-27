@@ -1,8 +1,9 @@
-const API_BASE_URL = "http://localhost:8080"; // URL вашего API
+const API_BASE_URL = "http://localhost:8080/api"; // URL вашего API
 
 // DOM элементы
 const loginForm = document.getElementById("form-login");
 const loginError = document.getElementById("login-error");
+const registerButton = document.getElementById("register-button");
 
 // Обработчик события отправки формы входа
 loginForm.addEventListener("submit", async (event) => {
@@ -38,3 +39,8 @@ loginForm.addEventListener("submit", async (event) => {
         console.error("Error during login:", error);
     }
 });
+
+registerButton.addEventListener("click", function() {
+    window.location.href = "register.html"; // Перенаправление на страницу регистрации
+});
+

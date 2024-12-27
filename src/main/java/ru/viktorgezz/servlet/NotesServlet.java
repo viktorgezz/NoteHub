@@ -7,13 +7,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.viktorgezz.dao.NoteDao;
 import ru.viktorgezz.dao.interfaces.NoteService;
-import ru.viktorgezz.util.JsonMapper;
-import ru.viktorgezz.util.JsonMapperImp;
+import ru.viktorgezz.util.mapper.JsonMapper;
+import ru.viktorgezz.util.mapper.JsonMapperImp;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/notes")
+@WebServlet("/api/notes")
 public class NotesServlet extends HttpServlet {
 
     private final JsonMapper jsonMapper = JsonMapperImp.getInstance();

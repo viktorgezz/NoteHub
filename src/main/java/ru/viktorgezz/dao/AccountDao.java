@@ -3,7 +3,7 @@ package ru.viktorgezz.dao;
 import ru.viktorgezz.model.Account;
 import ru.viktorgezz.dao.interfaces.AccountService;
 import ru.viktorgezz.util.DbConnectionPool;
-import ru.viktorgezz.util.ResultSetMapper;
+import ru.viktorgezz.util.mapper.ResultSetMapper;
 
 import java.sql.*;
 import java.util.Optional;

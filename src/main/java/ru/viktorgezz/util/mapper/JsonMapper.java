@@ -1,4 +1,4 @@
-package ru.viktorgezz.util;
+package ru.viktorgezz.util.mapper;
 
 import jakarta.servlet.http.HttpServletResponse;
 

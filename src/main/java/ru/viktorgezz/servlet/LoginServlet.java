@@ -11,14 +11,14 @@ import ru.viktorgezz.dto.AccountDto;
 import ru.viktorgezz.model.Account;
 import ru.viktorgezz.dao.interfaces.AccountService;
 import ru.viktorgezz.security.PasswordHasher;
-import ru.viktorgezz.util.JsonMapper;
-import ru.viktorgezz.util.JsonMapperImp;
+import ru.viktorgezz.util.mapper.JsonMapper;
+import ru.viktorgezz.util.mapper.JsonMapperImp;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
-@WebServlet(urlPatterns = "/login")
+@WebServlet(urlPatterns = "/api/login")
 public class LoginServlet extends HttpServlet {
 
     private final JsonMapper jsonMapper = JsonMapperImp.getInstance();

@@ -11,8 +11,8 @@ public class NoteValidation {
     private final NoteService noteService = NoteDao.getInstance();
 
 
-    public void validate(long id, NoteDto noteDto) throws SQLException, CustomException {
-        isExistsEntity(id);
+    public void validateUpdate(NoteDto noteDto) throws SQLException, CustomException {
+        isExistsEntity(noteDto.getId());
 
         String errors = checkEmpty(noteDto).toString();
         if (!errors.isEmpty()) {
@@ -44,7 +44,7 @@ public class NoteValidation {
             errors.append("Заголовок не может быть пустым");
         }
 
-        if (noteDto.getTxt().isEmpty()) {
+        if (noteDto.getText().isEmpty()) {
             errors.append("Текст не может быть пустым");
         }
         

@@ -2,7 +2,6 @@ package ru.viktorgezz.util;
 
 import ru.viktorgezz.dto.AccountDto;
 import ru.viktorgezz.model.Account;
-import ru.viktorgezz.security.PasswordHasher;
 
 public class AccountConverter {
 

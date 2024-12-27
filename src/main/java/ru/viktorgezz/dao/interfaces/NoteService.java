@@ -16,5 +16,5 @@ public interface NoteService {
 
     void deleteById(long id) throws SQLException;
 
-    void update(NoteDto noteDto, long id) throws SQLException;
+    void update(NoteDto noteDto) throws SQLException;
 }

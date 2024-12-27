@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 
 public class Note {
 
+    private Long id;
+
     private String title;
 
     private String text;
@@ -22,6 +24,7 @@ public class Note {
     }
 
     private Note(Builder builder) {
+        this.id = builder.id;
         this.title = builder.title;
         this.text = builder.text;
         this.createdAt = builder.createdAt;
@@ -69,12 +72,26 @@ public class Note {
         this.idAccount = idAccount;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public static class Builder {
+        private Long id;
         private String title;
         private String text;
         private LocalDateTime createdAt;
         private LocalDateTime updateAt;
         private Long idAccount;
+
+        public Builder setId(Long id) {
+            this.id = id;
+            return this;
+        }
 
         public Builder setTitle(String title) {
             this.title = title;

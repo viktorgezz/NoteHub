@@ -1,4 +1,4 @@
-package ru.viktorgezz.util;
+package ru.viktorgezz.util.mapper;
 
 import ru.viktorgezz.model.Note;
 import ru.viktorgezz.model.Account;
@@ -10,6 +10,7 @@ public class ResultSetMapper {
 
     public Note mapRowInNote(ResultSet rs) throws SQLException {
         return new Note.Builder()
+                .setId(rs.getLong("id"))
                 .setTitle(rs.getString("title"))
                 .setText(rs.getString("txt"))
                 .setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime())

@@ -3,9 +3,12 @@ package ru.viktorgezz.dto;
 import java.sql.Timestamp;
 
 public class NoteDto {
+
+    private Long id;
+
     private String title;
 
-    private String txt;
+    private String text;
 
     private Timestamp createdAt;
 
@@ -16,20 +19,9 @@ public class NoteDto {
     public NoteDto() {
     }
 
-    public NoteDto(String title, String txt) {
+    public NoteDto(String title, String text) {
         this.title = title;
-        this.txt = txt;
-    }
-
-    @Override
-    public String toString() {
-        return "NoteDto{" +
-                "title='" + title + '\'' +
-                ", txt='" + txt + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", idAccount=" + idAccount +
-                '}';
+        this.text = text;
     }
 
     public String getTitle() {
@@ -40,12 +32,12 @@ public class NoteDto {
         this.title = title;
     }
 
-    public String getTxt() {
-        return txt;
+    public String getText() {
+        return text;
     }
 
-    public void setTxt(String txt) {
-        this.txt = txt;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public Timestamp getCreatedAt() {
@@ -70,5 +62,13 @@ public class NoteDto {
 
     public void setIdAccount(Long idAccount) {
         this.idAccount = idAccount;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

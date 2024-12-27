@@ -1,4 +1,4 @@
-package ru.viktorgezz.util;
+package ru.viktorgezz.util.mapper;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

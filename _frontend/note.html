@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заметка</title>
+</head>
+<body>
+<h1>Note Details</h1>
+<div id="note-container">
+    <p>Loading note...</p>
+</div>
+<form id="note-form" style="display: none;">
+    <label for="title">Заголовок:</label>
+    <input type="text" id="title" required>
+    <br>
+    <label for="txt">Текст:</label>
+    <textarea id="txt" required></textarea>
+    <br>
+    <button type="submit">Update</button>
+    <button type="button" id="delete-button">Delete</button>
+</form>
+<div id="timestamps" style="display: none;">
+    <p id="created-at"></p>
+    <p id="updated-at"></p>
+</div>
+<a href="notes.html">Вернуться ко всем заметкам</a>
+
+<script src="note.js"></script>
+</body>
+</html>

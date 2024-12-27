@@ -11,11 +11,13 @@ import ru.viktorgezz.model.Account;
 import ru.viktorgezz.dao.interfaces.AccountService;
 import ru.viktorgezz.security.PasswordHasher;
 import ru.viktorgezz.util.*;
+import ru.viktorgezz.util.mapper.JsonMapper;
+import ru.viktorgezz.util.mapper.JsonMapperImp;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(urlPatterns = "/register")
+@WebServlet(urlPatterns = "/api/register")
 public class RegisterServlet extends HttpServlet {
 
     private final JsonMapper jsonMapperImp = JsonMapperImp.getInstance();

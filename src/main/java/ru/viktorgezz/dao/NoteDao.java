@@ -4,7 +4,7 @@ import ru.viktorgezz.dao.interfaces.NoteService;
 import ru.viktorgezz.dto.NoteDto;
 import ru.viktorgezz.model.Note;
 import ru.viktorgezz.util.DbConnectionPool;
-import ru.viktorgezz.util.ResultSetMapper;
+import ru.viktorgezz.util.mapper.ResultSetMapper;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -45,7 +45,7 @@ public class NoteDao implements NoteService {
         try (Connection connection = DbConnectionPool.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, noteDto.getTitle());
-            stmt.setString(2, noteDto.getTxt());
+            stmt.setString(2, noteDto.getText());
             stmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
             stmt.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
             stmt.setLong(5, noteDto.getIdAccount());
@@ -80,15 +80,15 @@ public class NoteDao implements NoteService {
         }
     }
 
-    public void update(NoteDto noteDto, long id) throws SQLException {
+    public void update(NoteDto noteDto) throws SQLException {
         String sql = "UPDATE Note SET title = ?, txt = ?, updated_at = ? WHERE id = ?";
 
         try (Connection connection = DbConnectionPool.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, noteDto.getTitle());
-            stmt.setString(2, noteDto.getTxt());
+            stmt.setString(2, noteDto.getText());
             stmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
-            stmt.setLong(4, id);
+            stmt.setLong(4, noteDto.getId());
             stmt.executeUpdate();
         }
     }
